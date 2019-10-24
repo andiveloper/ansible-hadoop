@@ -1,5 +1,5 @@
 hadoop_target_dir: /opt/hadoop
-hadoop_distro_home: "{{hadoop_target_dir}}/current"
+hadoop_distro_home: "{{ hadoop_target_dir }}/current"
 hadoop_distro_url: http://mirrors.ukfast.co.uk/sites/ftp.apache.org/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
 hadoop_distro_local_pkg: 
 
@@ -22,8 +22,8 @@ hadoop_core_site_defaults:
 # hdfs-site.xml
 hadoop_hdfs_site: {}
 hadoop_hdfs_site_defaults:
-  dfs.datanode.data.dir: "{{hadoop_target_dir}}/data/datanode"
-  dfs.namenode.name.dir: "{{hadoop_target_dir}}/data/namenode"
+  dfs.datanode.data.dir: "{{ hadoop_target_dir }}/data/datanode"
+  dfs.namenode.name.dir: "{{ hadoop_target_dir }}/data/namenode"
   dfs.blocksize: "134217728"
   dfs.namenode.handler.count: "100"
 
@@ -40,8 +40,8 @@ hadoop_yarn_site_defaults:
   
   yarn.nodemanager.resource.memory-mb: 2048
   yarn.nodemanager.vmem-pmem-ratio: 2.1
-  yarn.nodemanager.local-dirs: "{{hadoop_target_dir}}/data/nodemanager/local"
-  yarn.nodemanager.log-dirs: "{{hadoop_target_dir}}/data/nodemanager/logs"
+  yarn.nodemanager.local-dirs: "{{ hadoop_target_dir }}/data/nodemanager/local"
+  yarn.nodemanager.log-dirs: "{{ hadoop_target_dir }}/data/nodemanager/logs"
   yarn.nodemanager.log.retain-seconds: 10800
   yarn.nodemanager.remote-app-log-dir: "/logs"
   yarn.nodemanager.remote-app-log-dir-suffix: "logs"

@@ -15,11 +15,11 @@
             {% if ns.update({'namenodes': ns.namenodes + ',nn' + (loop.index0 + 1)|string }) %}{% endif %}
         {% endif %}
         <property>
-            <name>dfs.namenode.rpc-address.{{ hadoop_cluster_name }}.{{'nn' + (loop.index0 + 1)|string }}</name>
+            <name>dfs.namenode.rpc-address.{{ hadoop_cluster_name }}.{{ 'nn' + (loop.index0 + 1)|string }}</name>
             <value>{{ node }}:8020</value>
         </property>
         <property>
-            <name>dfs.namenode.http-address.{{ hadoop_cluster_name }}.{{'nn' + (loop.index0 + 1)|string }}</name>
+            <name>dfs.namenode.http-address.{{ hadoop_cluster_name }}.{{ 'nn' + (loop.index0 + 1)|string }}</name>
             <value>{{ node }}:9870</value>
         </property>
     {% endfor %}

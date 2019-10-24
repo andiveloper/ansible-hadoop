@@ -3,19 +3,19 @@
   - name: restart resourcemanager
     include_tasks: ./restart_hadoop_service.yaml
     vars:
-      start_service: "{{'hadoop_managers' in group_names}}"
+      start_service: "{{ 'hadoop_managers' in group_names }}"
       hadoop_service_binary: yarn
       hadoop_service_name: resourcemanager
   - name: restart nodemanager
     include_tasks: ./restart_hadoop_service.yaml
     vars:
-      start_service: "{{'hadoop_managers' in group_names}}"
+      start_service: "{{ 'hadoop_managers' in group_names }}"
       hadoop_service_binary: yarn
       hadoop_service_name: nodemanager
   - name: restart proxyserver
     include_tasks: ./restart_hadoop_service.yaml
     vars:
-      start_service: "{{'hadoop_managers' in group_names}}"
+      start_service: "{{ 'hadoop_managers' in group_names }}"
       hadoop_service_binary: yarn
       hadoop_service_name: proxyserver
   become: yes
@@ -26,7 +26,7 @@
   - name: restart historyserver
     include_tasks: ./restart_hadoop_service.yaml
     vars:
-      start_service: "{{'hadoop_managers' in group_names}}"
+      start_service: "{{ 'hadoop_managers' in group_names }}"
       hadoop_service_binary: mapred
       hadoop_service_name: historyserver
   become: yes

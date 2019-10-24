@@ -1,34 +1,34 @@
 - name: create JRE target directory
   file:
-    path: "{{jre_target_dir}}"
+    path: "{{ jre_target_dir }}"
     state: directory
   tags: jre
 
 - name: set JRE package name from URL
   when: jre_local_pkg == None
-  set_fact: jre_pkg_name={{jre_url.split('/')[-1]}}
+  set_fact: jre_pkg_name={{ jre_url.split('/')[-1] }}
 
 - name: set JRE package name from local package
   when: jre_local_pkg != None
-  set_fact: jre_pkg_name={{jre_url.split('/')[-1]}}
+  set_fact: jre_pkg_name={{ jre_url.split('/')[-1] }}
 
 - name: download JRE
   when: jre_local_pkg == None
   get_url: 
-    url: "{{jre_url}}"
-    dest: "{{jre_target_dir}}/{{jre_pkg_name}}"
+    url: "{{ jre_url }}"
+    dest: "{{ jre_target_dir }}/{{ jre_pkg_name }}"
   tags: jre
 
 - name: copy local JRE package to remote system
   when: jre_local_pkg != None
   copy:
-    src: "{{jre_local_pkg}}"
-    dest: "{{jre_target_dir}}/{{jre_pkg_name}}"
+    src: "{{ jre_local_pkg }}"
+    dest: "{{ jre_target_dir }}/{{ jre_pkg_name }}"
  
 - name: unpack JRE
   unarchive:
-    src: "{{jre_target_dir}}/{{jre_url.split('/')[-1]}}"
-    dest: "{{jre_target_dir}}"
+    src: "{{ jre_target_dir }}/{{ jre_url.split('/')[-1] }}"
+    dest: "{{ jre_target_dir }}"
     remote_src: yes
     list_files: yes
   register: archive_contents
@@ -36,8 +36,8 @@
 
 - name: create link to jre
   file:
-    path: "{{jre_target_dir}}/current"
-    src: "{{archive_contents.files[0]}}"
+    path: "{{ jre_target_dir }}/current"
+    src: "{{ archive_contents.files[0] }}"
     state: link
   tags: jre
   
