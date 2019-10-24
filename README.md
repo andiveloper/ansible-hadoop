@@ -1,4 +1,6 @@
 # ansible-hadoop
+[![Build Status](https://travis-ci.org/andiveloper/ansible-hadoop.svg?branch=master)](https://travis-ci.org/andiveloper/ansible-hadoop)
+
 An Ansible role which can be used to create a multi-node Apache Hadoop cluster for development purposes.
 
 # Features
