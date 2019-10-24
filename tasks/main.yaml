@@ -20,8 +20,7 @@
       tags: hadoop, installHadoop
 
     - name: install OpenJDK
-      import_role: 
-        name: openjdk
+      import_tasks: ./install_openjdk.yaml
       vars:
         jre_url: "{{hadoop_jre_url}}"
         jre_local_pkg: "{{hadoop_jre_local_pkg}}"   
