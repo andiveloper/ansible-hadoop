@@ -5,22 +5,22 @@
   tags: jre
 
 - name: set JRE package name from URL
-  when: jre_local_pkg == ""
+  when: jre_local_pkg == None
   set_fact: jre_pkg_name={{jre_url.split('/')[-1]}}
 
 - name: set JRE package name from local package
-  when: jre_local_pkg != ""
+  when: jre_local_pkg != None
   set_fact: jre_pkg_name={{jre_url.split('/')[-1]}}
 
 - name: download JRE
-  when: jre_local_pkg == ""
+  when: jre_local_pkg == None
   get_url: 
     url: "{{jre_url}}"
     dest: "{{jre_target_dir}}/{{jre_pkg_name}}"
   tags: jre
 
 - name: copy local JRE package to remote system
-  when: jre_local_pkg != ""
+  when: jre_local_pkg != None
   copy:
     src: "{{jre_local_pkg}}"
     dest: "{{jre_target_dir}}/{{jre_pkg_name}}"
