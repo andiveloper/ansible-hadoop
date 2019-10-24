@@ -1,0 +1,10 @@
+- name: change owner of shared edits dir
+  when: inventory_hostname == groups['hadoop_namenodes'][0]
+  file:
+    path: "{{ hadoop_hdfs_site['dfs.namenode.shared.edits.dir'] }}"
+    owner: hdfs
+    group: hadoop
+    mode: u=rwx,g=rwx,o=r
+    state: directory
+  tags: hadoop, configureHadoop, configureHadoopHA
+

@@ -1,0 +1,16 @@
+- name: remove datanode dir
+  when: hadoop_reformat_namenode == True
+  file:
+    path: "{{hadoop_hdfs_site['dfs.datanode.data.dir'] | default(hadoop_hdfs_site_defaults['dfs.datanode.data.dir']) }}"
+    state: absent
+  tags: hadoop, configureHadoopDataNode
+
+- name: create datanode dir
+  file:
+    path: "{{hadoop_hdfs_site['dfs.datanode.data.dir'] | default(hadoop_hdfs_site_defaults['dfs.datanode.data.dir']) }}"
+    state: directory
+    owner: hdfs
+    group: hadoop
+  tags: hadoop, configureHadoopDataNode
+
+

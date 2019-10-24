@@ -1,0 +1,96 @@
+
+- name: deploy Hadoop
+  when: "'hadoop' in group_names"
+  block:
+    - name: install needed packages
+      package:
+        name: 
+          - wget
+        state: present
+      tags: hadoop, configureHadoop
+
+    - name: create Hadoop users
+      import_tasks: ./create_hadoop_users.yaml
+      tags: hadoop, configureHadoop
+    
+    - name: create directory for hadoop distro
+      file:
+        path: "{{hadoop_target_dir}}"
+        state: directory
+      tags: hadoop, installHadoop
+
+    - name: install OpenJDK
+      import_role: 
+        name: openjdk
+      vars:
+        jre_url: "{{hadoop_jre_url}}"
+        jre_local_pkg: "{{hadoop_jre_local_pkg}}"   
+        jre_target_dir: "{{hadoop_target_dir}}/jre"
+      tags: jre, hadoop, installHadoop
+
+    - name: download and install Hadoop
+      include_tasks: ./download_and_install_hadoop.yaml  
+      tags: hadoop, installHadoop
+
+    - name: change owner to hdfs and allow group hadoop rwx
+      file:
+        path: "{{hadoop_target_dir}}"
+        owner: hdfs
+        group: hadoop
+        mode: u=rwx,g=rwx,o=r
+        recurse: yes
+        state: directory
+      tags: hadoop, configureHadoop 
+
+    - name: Configure config files
+      when: "'hadoop' in group_names"
+      import_tasks: ./configure_config_files.yaml
+      tags: hadoop, configureHadoop
+
+    - name: configure Hadoop
+      import_tasks: ./configure_hadoop.yaml  
+      tags: hadoop, configureHadoop, configureHadoopHA
+
+    - name: format namenode
+      when: "'hadoop_namenodes' in group_names"
+      import_tasks: ./format_namenode.yaml  
+      tags: hadoop  
+
+    - name: configure datanodes
+      when: "'hadoop_datanodes' in group_names"
+      import_tasks: ./configure_datanodes.yaml  
+      tags: hadoop 
+
+    - name: download sample JARs for teragen, terasort
+      import_tasks: ./download_sample_JARs.yaml
+      tags: hadoop
+
+    - name: start namenodes
+      import_tasks: ./start_namenodes.yaml
+      tags: hadoop, startHadoopServices, startNameNodes
+
+    - name: change owner of hdfs '/' to hdfs:hadoop
+      when: inventory_hostname == groups['hadoop_namenodes'][0]
+      shell: "{{hadoop_distro_home}}/bin/hdfs dfs -chown hdfs:hadoop /"
+      become: yes
+      become_user: hdfs
+      tags: hadoop, startHadoopServices, startNameNodes
+
+    - name: change permissions of hdfs '/' to 775
+      when: inventory_hostname == groups['hadoop_namenodes'][0]
+      shell: "{{hadoop_distro_home}}/bin/hdfs dfs -chmod 775 /"
+      become: yes
+      become_user: hdfs
+      tags: hadoop, startHadoopServices, startNameNodes
+
+    - name: start manager nodes
+      import_tasks: ./start_manager_nodes.yaml
+      tags: hadoop, startHadoopServices, startManagerNodes
+
+    - name: start datanodes
+      import_tasks: ./start_datanodes.yaml
+      tags: hadoop, startHadoopServices, startDataNodes
+      
+      
+      
+      

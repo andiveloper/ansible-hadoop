@@ -1,0 +1,12 @@
+- name: create directory Hadoop sample JARs
+  file:
+    path: "{{hadoop_target_dir}}/samples"
+    state: directory
+  tags: hadoop, hadoopInstallSampleJAR
+
+- name: download Hadoop sample jars
+  get_url:
+    url: "{{item}}"
+    dest: "{{hadoop_target_dir}}/samples/{{item.split('/')[-1]}}"
+  loop: "{{hadoop_sample_jar_urls}}"
+  tags: hadoop, hadoopInstallSampleJAR

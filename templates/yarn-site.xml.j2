@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration>
+  <!-- Site specific YARN configuration properties -->
+{% set dict = hadoop_yarn_site|combine(hadoop_yarn_site_defaults) %}
+{% for key,value in dict.items() %}
+    <property>
+        <name>{{ key }}</name>
+        <value>{{ value }}</value>
+    </property>
+{% endfor %}
+</configuration>

@@ -1,0 +1,28 @@
+- name: start namenodes
+  block:
+  - name: stop all NameNodes and start only first NameNode
+    include_tasks: ./restart_hadoop_service.yaml
+    vars:
+      start_service: "{{inventory_hostname == groups['hadoop_namenodes'][0]}}"
+      hadoop_service_binary: hdfs
+      hadoop_service_name: namenode
+    
+  - name: transition first NameNode to active    
+    when: groups['hadoop_namenodes']|length > 1 and inventory_hostname == groups['hadoop_namenodes'][0]
+    shell: "{{hadoop_distro_home}}/bin/hdfs haadmin -transitionToActive --forceactive nn1"   
+    register: result
+    retries: 3
+    until: result.rc == 0
+  
+  - name: bootstrap other NameNodes
+    when: groups['hadoop_namenodes']|length > 1 and inventory_hostname != groups['hadoop_namenodes'][0] and inventory_hostname in groups['hadoop_namenodes']
+    shell: "{{hadoop_distro_home}}/bin/hdfs namenode -bootstrapStandby -force"
+
+  - name: start other NameNodes
+    when: groups['hadoop_namenodes']|length > 1 and inventory_hostname != groups['hadoop_namenodes'][0] and inventory_hostname in groups['hadoop_namenodes']
+    include_tasks: ./restart_hadoop_service.yaml
+    vars:
+      hadoop_service_binary: hdfs
+      hadoop_service_name: namenode
+  become: yes
+  become_user: hdfs

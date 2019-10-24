@@ -1,0 +1,72 @@
+hadoop_target_dir: /opt/hadoop
+hadoop_distro_home: "{{hadoop_target_dir}}/current"
+hadoop_distro_url: http://mirrors.ukfast.co.uk/sites/ftp.apache.org/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
+hadoop_distro_local_pkg:
+
+hadoop_jre_url: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jre_x64_linux_hotspot_8u222b10.tar.gz
+hadoop_jre_local_pkg:
+
+hadoop_sample_jar_urls: 
+  - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-examples/3.1.2/hadoop-mapreduce-examples-3.1.2.jar
+
+hadoop_cluster_name: mycluster
+
+hadoop_reformat_namenode: False
+
+
+# core-site.xml
+hadoop_core_site: {}
+hadoop_core_site_defaults:
+  io.file.buffer.size: "131072"
+
+# hdfs-site.xml
+hadoop_hdfs_site: {}
+hadoop_hdfs_site_defaults:
+  dfs.datanode.data.dir: "{{hadoop_target_dir}}/data/datanode"
+  dfs.namenode.name.dir: "{{hadoop_target_dir}}/data/namenode"
+  dfs.blocksize: "134217728"
+  dfs.namenode.handler.count: "100"
+
+# yarn-site.xml
+hadoop_yarn_site: {}
+hadoop_yarn_site_defaults:
+  yarn.acl.enable: "false"
+  yarn.admin.acl: "*"
+  yarn.log-aggregation-enable: "false" 
+  yarn.resourcemanager.hostname: "{{ groups['hadoop_managers'][0] }}"
+  yarn.resourcemanager.scheduler.class: org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler
+  yarn.scheduler.minimum-allocation-mb: 1
+  yarn.scheduler.maximum-allocation-mb: 2048
+  
+  yarn.nodemanager.resource.memory-mb: 2048
+  yarn.nodemanager.vmem-pmem-ratio: 2.1
+  yarn.nodemanager.local-dirs: "{{hadoop_target_dir}}/data/nodemanager/local"
+  yarn.nodemanager.log-dirs: "{{hadoop_target_dir}}/data/nodemanager/logs"
+  yarn.nodemanager.log.retain-seconds: 10800
+  yarn.nodemanager.remote-app-log-dir: "/logs"
+  yarn.nodemanager.remote-app-log-dir-suffix: "logs"
+  yarn.nodemanager.aux-services: "mapreduce_shuffle"
+  yarn.nodemanager.env-whitelist: JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME
+
+  yarn.log-aggregation.retain-seconds: -1
+  yarn.log-aggregation.retain-check-interval-seconds: -1
+
+  yarn.web-proxy.address: "{{ groups['hadoop_managers'][0] }}"
+
+# mapred-site.xml
+hadoop_mapred_site: {}
+hadoop_mapred_site_defaults:
+  mapreduce.framework.name: yarn
+  mapreduce.map.memory.mb: 1536
+  mapreduce.map.java.opts: -Xmx1024M
+  mapreduce.reduce.memory.mb: 3072
+  mapreduce.reduce.java.opts: -Xmx2560M
+  mapreduce.task.io.sort.mb: 512
+  mapreduce.task.io.sort.factor: 100
+  mapreduce.reduce.shuffle.parallelcopies: 50
+
+  mapreduce.jobhistory.address: "{{ groups['hadoop_managers'][0] }}:10020"
+  mapreduce.jobhistory.webapp.address: "{{ groups['hadoop_managers'][0] }}:19888"
+  mapreduce.jobhistory.intermediate-done-dir: /mr-history/tmp
+  mapreduce.jobhistory.done-dir: /mr-history/done
+

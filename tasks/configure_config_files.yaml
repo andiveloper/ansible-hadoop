@@ -1,0 +1,12 @@
+- name: configure config files
+  template:
+    src: ./templates/{{ item }}.j2
+    dest: "{{ hadoop_distro_home }}/etc/hadoop/{{ item }}"
+    owner: hdfs
+    group: hadoop
+  loop:
+    - core-site.xml
+    - hdfs-site.xml
+    - yarn-site.xml
+    - mapred-site.xml
+  tags: configureHadoopConfig

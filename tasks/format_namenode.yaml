@@ -1,0 +1,16 @@
+- name: format first namenode
+  when: hadoop_reformat_namenode == True and inventory_hostname == groups['hadoop_namenodes'][0]
+  become: yes
+  become_user: hdfs
+  block:
+  - name: stop NameNode
+    shell: "{{hadoop_distro_home}}/bin/hdfs --daemon stop namenode"
+
+  - name: remove NameNode dir
+    file:
+        path: "{{hadoop_hdfs_site['dfs.namenode.name.dir'] | default(hadoop_hdfs_site_defaults['dfs.namenode.name.dir']) }}"
+        state: absent   
+
+  - name: format first NameNode
+    shell: "{{hadoop_distro_home}}/bin/hdfs namenode -format {{hadoop_cluster_name}} -force -non-interactive"
+  tags: hadoop, configureHadoopNameNode

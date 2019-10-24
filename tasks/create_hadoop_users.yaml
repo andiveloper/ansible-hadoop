@@ -1,0 +1,33 @@
+- name: create group hadoop
+  group:
+    name: hadoop
+    gid: 33500
+  tags: hadoop, configureHadoop  
+
+- name: create user hadoop
+  user:
+    name: hadoop
+    group: hadoop
+    uid: 33511
+  tags: hadoop, configureHadoop  
+
+- name: create user and group hdfs
+  user:
+    name: hdfs
+    group: hadoop
+    uid: 33510
+  tags: hadoop, configureHadoop 
+
+- name: create user and group yarn
+  user:
+    name: yarn
+    group: hadoop
+    uid: 33520
+  tags: hadoop, configureHadoop
+
+- name: create user and group mapred
+  user:
+    name: mapred
+    group: hadoop
+    uid: 33530
+  tags: hadoop, configureHadoop 

@@ -1,0 +1,10 @@
+- name: start datanodes
+  block:
+  - name: restart datanode
+    include_tasks: ./restart_hadoop_service.yaml
+    vars:
+      start_service: "{{'hadoop_datanodes' in group_names}}"
+      hadoop_service_binary: hdfs
+      hadoop_service_name: datanode
+  become: yes
+  become_user: hdfs

@@ -1,0 +1,27 @@
+- name: set JAVA_HOME in hadoop-env.sh # /etc/alternatives/jre/bin/java
+  lineinfile:
+    path: "{{hadoop_distro_home}}/etc/hadoop/hadoop-env.sh"
+    line: export JAVA_HOME={{hadoop_target_dir}}/jre/current
+    insertafter: "# export JAVA_HOME="
+    regexp: "^export JAVA_HOME=.*$"
+  tags: hadoop, configureHadoop
+
+- name: remove localhost from workers file
+  lineinfile:
+    path: "{{hadoop_distro_home}}/etc/hadoop/workers"
+    line: "localhost"
+    state: absent
+  tags: hadoop, configureHadoop
+
+- name: add all datanodes to workers file
+  lineinfile:
+    path: "{{hadoop_distro_home}}/etc/hadoop/workers"
+    line: "{{item}}"
+    state: present
+  loop: "{{ groups['hadoop_datanodes'] }}"  
+  tags: hadoop, configureHadoop
+
+- name: configure NameNode HA
+  when: "groups['hadoop_namenodes']|length > 1"
+  import_tasks: ./configure_hadoop_ha.yaml
+  tags: hadoop, configureHadoop, configureHadoopHA

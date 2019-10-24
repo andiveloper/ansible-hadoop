@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration>
+{% if groups['hadoop_namenodes']|length > 1 %}
+    <property>
+        <name>dfs.nameservices</name>
+        <value>{{ hadoop_cluster_name }}</value>
+    </property>
+    <property>
+        <name>dfs.client.failover.proxy.provider.{{ hadoop_cluster_name }}</name>
+        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+    {% set ns = { 'namenodes': 'nn1' } %}
+    {% for node in groups['hadoop_namenodes'] %}
+        {% if not loop.first %}           
+            {% if ns.update({'namenodes': ns.namenodes + ',nn' + (loop.index0 + 1)|string }) %}{% endif %}
+        {% endif %}
+        <property>
+            <name>dfs.namenode.rpc-address.{{ hadoop_cluster_name }}.{{'nn' + (loop.index0 + 1)|string }}</name>
+            <value>{{ node }}:8020</value>
+        </property>
+        <property>
+            <name>dfs.namenode.http-address.{{ hadoop_cluster_name }}.{{'nn' + (loop.index0 + 1)|string }}</name>
+            <value>{{ node }}:9870</value>
+        </property>
+    {% endfor %}
+    <property>
+        <name>dfs.ha.namenodes.{{ hadoop_cluster_name }}</name>
+        <value>{{ ns.namenodes }}</value>
+    </property>
+{% endif %}  
+{% set dict = hadoop_hdfs_site|combine(hadoop_hdfs_site_defaults) %}
+{% for key,value in dict.items() %}
+    <property>
+        <name>{{ key }}</name>
+        <value>{{ value }}</value>
+    </property>
+{% endfor %}
+</configuration>

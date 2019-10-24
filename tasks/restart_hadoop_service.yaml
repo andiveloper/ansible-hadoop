@@ -1,0 +1,11 @@
+- name: stop service {{hadoop_service_name}}
+  when: stop_service is not defined or stop_service == True
+  shell: "{{hadoop_distro_home}}/bin/{{hadoop_service_binary}} --daemon stop {{hadoop_service_name}}"
+
+- name: start service {{hadoop_service_name}}
+  when: start_service is not defined or start_service == True
+  shell: "nohup {{hadoop_distro_home}}/bin/{{hadoop_service_binary}} --daemon start {{hadoop_service_name}} && {{hadoop_distro_home}}/bin/{{hadoop_service_binary}} --daemon status {{hadoop_service_name}}"
+  register: result
+  retries: 3
+  until: result.rc == 0
+
