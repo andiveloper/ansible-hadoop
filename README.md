@@ -17,6 +17,7 @@ The role relies on specific group names. A sample inventory file could look like
 [hadoop_namenodes]
 node-1
 node-2
+
 [hadoop_datanodes]
 node-1
 node-2
