@@ -8,6 +8,7 @@ hadoop_jre_local_pkg:
 
 hadoop_sample_jar_urls: 
   - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-examples/3.1.2/hadoop-mapreduce-examples-3.1.2.jar
+hadoop_sample_jar_pkgs:
 
 hadoop_cluster_name: mycluster
 

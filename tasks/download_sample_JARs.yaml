@@ -2,11 +2,23 @@
   file:
     path: "{{ hadoop_target_dir }}/samples"
     state: directory
-  tags: hadoop, hadoopInstallSampleJAR
+  tags: hadoop, hadoopInstallSampleJARs
+
+- debug:
+    msg: "{{hadoop_sample_jar_pkgs}}"
+
+- name: copy sample jars
+  when: hadoop_sample_jar_pkgs != None
+  copy:
+    src: "{{ item }}" 
+    dest: "{{ hadoop_target_dir }}/samples/{{ item.split('/')[-1] }}"
+  with_list: "{{ hadoop_sample_jar_pkgs | default([]) }}"
+  tags: hadoop, hadoopInstallSampleJARs
 
 - name: download Hadoop sample jars
+  when: hadoop_sample_jar_pkgs == None
   get_url:
     url: "{{ item }}"
     dest: "{{ hadoop_target_dir }}/samples/{{ item.split('/')[-1] }}"
-  loop: "{{ hadoop_sample_jar_urls }}"
-  tags: hadoop, hadoopInstallSampleJAR
+  with_list: "{{ hadoop_sample_jar_urls | default([]) }}"
+  tags: hadoop, hadoopInstallSampleJARs

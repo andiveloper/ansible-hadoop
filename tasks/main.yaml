@@ -62,7 +62,7 @@
 
     - name: download sample JARs for teragen, terasort
       import_tasks: ./download_sample_JARs.yaml
-      tags: hadoop
+      tags: hadoop, hadoopInstallSampleJARs
 
     - name: start namenodes
       import_tasks: ./start_namenodes.yaml
