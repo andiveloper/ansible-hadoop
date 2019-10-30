@@ -8,7 +8,7 @@ An Ansible role which can be used to create a multi-node Apache Hadoop cluster f
 - Deploy NameNodes (single or HA)
 - Deploy Manager Nodes (ResourceManager, NodeManager, HistoryServer)
 - Offline or online install
-- Downloads sample JAR which can be used to execute teragen, terasort jobs
+- Download sample JAR which can be used to execute teragen, terasort jobs
 - Default install dir: `/opt/hadoop`
 
 # Sample Usage
