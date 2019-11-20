@@ -15,7 +15,7 @@ An Ansible role which can be used to create a multi-node Apache Hadoop cluster f
 The role relies on specific group names. A sample inventory file could look like this:
 
 ```
-# Sample inventory.ini for NameNode HA
+# Sample inventory.ini
 [hadoop_namenodes]
 node-1
 
