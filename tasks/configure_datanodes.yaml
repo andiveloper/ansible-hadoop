@@ -1,5 +1,5 @@
 - name: remove datanode dir
-  when: hadoop_reformat_namenode == True
+  when: hadoop_reformat_namenode
   file:
     path: "{{ hadoop_hdfs_site['dfs.datanode.data.dir'] | default(hadoop_hdfs_site_defaults['dfs.datanode.data.dir']) }}"
     state: absent

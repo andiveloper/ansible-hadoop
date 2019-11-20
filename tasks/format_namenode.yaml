@@ -1,5 +1,5 @@
 - name: format first namenode
-  when: hadoop_reformat_namenode == True and inventory_hostname == groups['hadoop_namenodes'][0]
+  when: hadoop_reformat_namenode and inventory_hostname == groups['hadoop_namenodes'][0]
   become: yes
   become_user: hdfs
   block:
