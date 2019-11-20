@@ -18,16 +18,14 @@ The role relies on specific group names. A sample inventory file could look like
 # Sample inventory.ini for NameNode HA
 [hadoop_namenodes]
 node-1
-node-2
 
 [hadoop_datanodes]
 node-1
 node-2
-node-3
 
 [hadoop_managers] 
 # these hosts will run: ResourceManager, NodeManager and MapReduce Job History server
-node-2
+node-1
 
 [hadoop:children]
 hadoop_namenodes
@@ -38,8 +36,10 @@ hadoop_managers
 # If set to True all existing data (if any) will be deleted
 hadoop_reformat_namenode=True
 
-# Shared Edits Dir is needed for HA if multiple NameNodes are specified, comment out if only one NameNode is specified
-hadoop_hdfs_site={"dfs.namenode.shared.edits.dir": "/mnt/gpfs0/hdfs-ha"}
+# Shared Edits Dir is needed for HA if multiple NameNodes are specified, so use only if more than one NameNode is specified
+# This directory must be a shared directory and accessible from all the NameNodes 
+# (e.g. you have to set up a NFS share and mount it on all the NameNodes)
+# hadoop_hdfs_site={"dfs.namenode.shared.edits.dir": "/mnt/gpfs0/hdfs-ha"}
 
 # Online install, each node needs internet access
 hadoop_distro_url=http://mirrors.ukfast.co.uk/sites/ftp.apache.org/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
