@@ -14,3 +14,12 @@
   - name: format first NameNode
     shell: "{{ hadoop_distro_home }}/bin/hdfs namenode -format {{ hadoop_cluster_name }} -force -non-interactive"
   tags: hadoop, configureHadoopNameNode
+
+- name: remove datanode dir
+  when: hadoop_reformat_namenode and 'hadoop_datanodes' in group_names
+  become: yes
+  become_user: hdfs
+  file:
+    path: "{{ hadoop_hdfs_site['dfs.datanode.data.dir'] | default(hadoop_hdfs_site_defaults['dfs.datanode.data.dir']) }}"
+    state: absent
+

@@ -57,7 +57,6 @@
       tags: hadoop, configureHadoop, configureHadoopHA
 
     - name: format namenode
-      when: "'hadoop_namenodes' in group_names"
       import_tasks: ./format_namenode.yaml  
       tags: hadoop  
 
