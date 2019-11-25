@@ -35,7 +35,7 @@
       file:
         path: "{{ hadoop_distro_home }}/logs"
         state: directory
-      tags: hadoop, installHadoop
+      tags: hadoop, installHadoop   
 
     - name: change owner to hdfs and allow group hadoop rwx
       file:
