@@ -50,6 +50,14 @@
       import_tasks: ./configure_hadoop.yaml  
       tags: hadoop, configureHadoop, configureHadoopHA
 
+    - name: create default log dir
+      file:
+        path: "{{ hadoop_distro_home }}/logs"
+        state: directory
+      become: yes
+      become_user: hdfs
+      tags: hadoop, installHadoop
+
     - name: format namenode
       when: "'hadoop_namenodes' in group_names"
       import_tasks: ./format_namenode.yaml  

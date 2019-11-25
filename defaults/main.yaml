@@ -1,13 +1,13 @@
 hadoop_target_dir: /opt/hadoop
 hadoop_distro_home: "{{ hadoop_target_dir }}/current"
-hadoop_distro_url: http://mirrors.ukfast.co.uk/sites/ftp.apache.org/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
+hadoop_distro_url: https://www-eu.apache.org/dist/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz
 hadoop_distro_local_pkg: 
 
 hadoop_jre_url: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jre_x64_linux_hotspot_8u222b10.tar.gz
 hadoop_jre_local_pkg: 
 
 hadoop_sample_jar_urls: 
-  - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-examples/3.1.2/hadoop-mapreduce-examples-3.1.2.jar
+  - https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-examples/3.1.3/hadoop-mapreduce-examples-3.1.3.jar
 hadoop_sample_jar_pkgs:
 
 hadoop_cluster_name: mycluster
