@@ -46,7 +46,7 @@ hadoop_distro_url=https://www-eu.apache.org/dist/hadoop/common/hadoop-3.1.3/hado
 hadoop_jre_url=https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jre_x64_linux_hotspot_8u222b10.tar.gz
 hadoop_sample_jar_urls=['https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-examples/3.1.3/hadoop-mapreduce-examples-3.1.3.jar']
 
-# For offline install download JRE and Hadoop distro manually, place them on the ansible host and uncomment the following two vars
+# For offline install download JRE and Hadoop distro manually, place them on the ansible host and uncomment the following vars
 #hadoop_distro_local_pkg=/root/hadoop-3.1.3.tar.gz
 #hadoop_jre_local_pkg=/root/OpenJDK8U-jre_x64_linux_hotspot_8u222b10.tar.gz
 #hadoop_sample_jar_pkgs=['/root/hadoop-mapreduce-examples-3.1.3.jar']
