@@ -62,12 +62,25 @@ hadoop_sample_jar_urls=['https://repo1.maven.org/maven2/org/apache/hadoop/hadoop
     - andiveloper.hadoop
 ```
 
+```
+ansible-galaxy install andiveloper.hadoop
+ansible-playbook -i inventory.ini playbook.yml 
+```
+
 ## Testing your cluster setup
 If the playbook finished successfully you can run a sample job using the downloaded sample JAR, for example:
 ```
 su hdfs
+
 export PATH=$PATH:/opt/hadoop/current/bin
-OUTPUT_DIR=/performance2
+
+# Basic funtionality:
+hdfs dfs -ls /
+hdfs dfs -mkdir -p /user/hdfs
+
+# Teragen + Terasort job (generating 1GB of data)
+
+OUTPUT_DIR=/performance
 
 hdfs dfs -rm -r -f $OUTPUT_DIR
 
